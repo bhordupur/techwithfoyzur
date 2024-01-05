@@ -2,36 +2,19 @@ name: build-and-push-docker-image
 
 on:
     push:
-        branches: ['main']
-
-env:
-    GITHUB_REGISTRY: ghcr.io
-    DOCKER_IMAGE: ${{ github.repository }}
+        branches: ['docker-build-push']
 
 jobs:
     build-push-docker-image:
         runs-on: ubuntu-latest
         permissions:
-            contents: read
-            packages: write
+          contents: read
+          packages: write
         steps:
             - name: checkout the repo
               uses: actions/checkout@v4
-            - name: login to ghcr.io
-              uses: docker/login-action@v3
-              with:
-                registry: ${{ env.GITHUB_REGISTRY }}
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
-            - name: extract the metadata (tags, labels)
-              id: meta
-              uses: docker/metadata-action@v5
-              with:
-                images: ${{ env.GITHUB_REGISTRY }}/${{ env.DOCKER_IMAGE }}
             - name: build-push-docker-image
-              uses: docker/build-push-action@v5
-              with:
-                context: ./django/webapp
-                push: true
-                tags: ${{ steps.meta.outputs.tags }}
-                labels: ${{ steps.meta.outputs.labels }}
+              run: |
+                docker login --username bhordupur --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+                docker build -t ghcr.io/bhordupur/django:latest -f ./django/webapp/Dockerfile ./django/webapp
+                docker push ghcr.io/bhordupur/django:latest

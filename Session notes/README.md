@@ -8,8 +8,15 @@ Here you can find list of videos making session notes
 
 [x] Introducing with the Django app and Dockerfile
 
-[] Write a github workflow for building and pushing docker image to ghcr
+[x] Write a github workflow for building and pushing docker image to ghcr
 
 [x] Talk about how to create a PAT token
 
-[] Show the workflow result
+[x] Show the workflow result
+
+
+## Build and push docker image to github packages
+
+[x] Build and push Docker image manually
+
+[x] Build and push Docker image automatically
