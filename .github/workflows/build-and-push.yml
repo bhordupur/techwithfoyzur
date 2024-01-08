@@ -8,13 +8,14 @@ jobs:
     build-push-docker-image:
         runs-on: ubuntu-latest
         permissions:
-          contents: read
-          packages: write
+            contents: read
+            packages: write
         steps:
             - name: checkout the repo
               uses: actions/checkout@v4
-            - name: build-push-docker-image
+            - name: build and push docker image
               run: |
-                docker login --username bhordupur --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
-                docker build -t ghcr.io/bhordupur/django:latest -f ./django/webapp/Dockerfile ./django/webapp
-                docker push ghcr.io/bhordupur/django:latest
+                docker login -u bhordupur --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+                docker build -t ghcr.io/bhordupur/django:demo -f ./django/webapp/Dockerfile ./django/webapp
+                docker push ghcr.io/bhordupur/django:demo
+
